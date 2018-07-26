@@ -12,3 +12,4 @@
 *.out
 /primas-api-sdk-go
 /vgo
+/vendor
