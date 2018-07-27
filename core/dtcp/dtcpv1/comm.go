@@ -31,6 +31,18 @@ const (
 	CONST_DTCP_ApplicationStatus_Pending  = "pending"
 	CONST_DTCP_ApplicationStatus_Approved = "approved"
 	CONST_DTCP_ApplicationStatus_Declined = "declined"
+
+	CONST_DTCP_Group_AllowJoin_Type_all         = "all"
+	CONST_DTCP_Group_AllowJoin_Type_application = "application"
+
+	CONST_DTCP_Group_AllowPost_Type_all         = "all"
+	CONST_DTCP_Group_AllowPost_Type_none        = "none"
+	CONST_DTCP_Group_AllowPost_Type_application = "application"
+
+	CONST_DTCP_Group_AccountRole_Type_Owner     = "owner"
+	CONST_DTCP_Group_AccountRole_Type_Member    = "member"
+	CONST_DTCP_Group_AccountRole_Type_Applicant = "applicant"
+	CONST_DTCP_Group_AccountRole_Type_None      = "none"
 )
 
 func NewDna(signature string) (string, error) {

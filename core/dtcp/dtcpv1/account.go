@@ -64,3 +64,29 @@ func NewAccountPut() *AccountPut {
 		Status:  CONST_DTCP_Status_Updated,
 	}
 }
+
+// get
+type AccountGet struct {
+	Id            string             `json:"id"`                 // Account id.
+	Address       string             `json:"address"`            // Account address.
+	Title         string             `json:"title"`              // Account name.
+	Abstract      string             `json:"abstract,omitempty"` // Description.
+	Avatar        string             `json:"avatar,omitempty"`   // An image id used for avatar.
+	Creator       *AccountGetCreator `json:"creator"`            // Creator of the sub account.
+	Created       int                `json:"created"`            // Account creation time. Unix timestamp.
+	Updated       int                `json:"updated"`            // Account last updating time. Unix timestamp.
+	Extra         *AccountGetExtra   `json:"extra,omitempty"`    // Extra metadata.
+	Signature     string             `json:"signature"`          // Metadata signature.
+	Dna           string             `json:"dna"`                // DNA of the account.
+	Credits       int                `json:"credits"`            // Current credits.
+	TransactionId string             `json:"transaction_id"`     // Latest transaction id.
+}
+
+type AccountGetCreator struct {
+	AccountId   string `json:"account_id"`   // Root account id.
+	AccountName string `json:"account_name"` // Root account name.
+}
+
+type AccountGetExtra struct {
+	Hash string `json:"hash"` // In the case of proof of existence of secret data. The hash can be filled in this field.
+}

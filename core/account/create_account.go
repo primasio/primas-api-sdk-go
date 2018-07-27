@@ -11,8 +11,8 @@ import (
 )
 
 type CreateAccountResult struct {
-	Id  string `json:"id"`  // The id of the account. No id is returned for sub accounts.
-	Dna string `json:"dna"` // The DNA of the account.
+	Id  string `json:"id,omitempty"` // The id of the account. No id is returned for sub accounts.
+	Dna string `json:"dna"`          // The DNA of the account.
 }
 
 type CreateAccountResponse struct {

@@ -66,3 +66,36 @@ func NewGroupPut() *GroupPut {
 		Status:  CONST_DTCP_Status_Updated,
 	}
 }
+
+// Get
+type GroupGet struct {
+	Id            string           `json:"id"`             // Group id.
+	Title         string           `json:"title"`          // Group title.
+	Creator       *GroupGetCreator `json:"creator"`        // Creator.
+	Avatar        string           `json:"avatar"`         // An image id used for avatar.
+	Abstract      string           `json:"abstract"`       // Group introduction.
+	Language      string           `json:"language"`       // Group language. RFC4646 defined locales such as "en-US"
+	Category      string           `json:"category"`       // Group categories. Comma separated words list.
+	Created       int              `json:"created"`        // Group creation time. Unix timestamp.
+	Updated       int              `json:"updated"`        // Group last updating time. Unix timestamp.
+	Extra         *GroupGetExtra   `json:"extra"`          // Extra metadata.
+	Signature     string           `json:"signature"`      // Metadata signature.
+	Dna           string           `json:"dna"`            // Group DNA.
+	TransactionId string           `json:"transaction_id"` // Latest transaction id.
+}
+
+type GroupGetCreator struct {
+	AccountId      string `json:"account_id"`                 // Root account id.
+	AccountName    string `json:"account_name"`               // Root account name.
+	SubAccountId   string `json:"sub_account_id,omitempty"`   // Sub account id. Refer to Sub account for details.
+	SubAccountName string `json:"sub_account_name,omitempty"` // Sub account name.
+}
+
+type GroupGetExtra struct {
+	AllowJoin    string       `json:"allow_join"`             // Joining group control. "all" or "application".
+	AllowPost    string       `json:"allow_post"`             // Posting control. "all", "none", "application".
+	MembersTotal int          `json:"members_total"`          // Total members number.
+	SharesTotal  int          `json:"shares_total"`           // Total shares number.
+	AccountRole  string       `json:"account_role,omitempty"` // Member status of current account. "owner", "member", "applicant" or "none".
+	Members      []AccountGet `json:"members"`                // Members overview. An array of account id.
+}
