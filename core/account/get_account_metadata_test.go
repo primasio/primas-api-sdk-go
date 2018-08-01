@@ -33,20 +33,20 @@ func TestGetSubAccountTokenMetadata(t *testing.T) {
 	sub_account_id := "a1ad1adf1"
 	subAccountMetadata, err := GetSubAccountTokenMetadata(account_id, sub_account_id)
 	if err != nil {
-		t.Errorf("GetAccountTokenMetadata error:%v", err.Error())
+		t.Errorf("GetSubAccountTokenMetadata error:%v", err.Error())
 		return
 	}
 
 	if subAccountMetadata != nil {
-		t.Logf("GetAccountTokensData response value:%v", subAccountMetadata)
+		t.Logf("GetSubAccountTokenMetadata response value:%v", subAccountMetadata)
 		if subAccountMetadata.ResultCode != core.CONST_ResultCode_Success {
-			t.Errorf("GetAccountTokensData response error:%v", subAccountMetadata.ResultMsg)
+			t.Errorf("GetSubAccountTokenMetadata response error:%v", subAccountMetadata.ResultMsg)
 			return
 		}
 		if subAccountMetadata.Data != nil {
-			t.Logf("GetAccountTokenMetadata response value:%v", subAccountMetadata.Data)
+			t.Logf("GetSubAccountTokenMetadata response value:%v", subAccountMetadata.Data)
 		} else {
-			t.Logf("GetAccountTokenMetadata response value don't find ")
+			t.Logf("GetSubAccountTokenMetadata response value don't find ")
 		}
 	}
 }

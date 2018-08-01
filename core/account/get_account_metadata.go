@@ -68,6 +68,10 @@ func GetSubAccountTokenMetadata(account_id, sub_account_id string) (*GetAccountM
 		return nil, errors.New("account_id is empty")
 	}
 
+	if sub_account_id == "" {
+		return nil, errors.New("sub_account_id is empty")
+	}
+
 	url := config.CONST_Server + `/accounts/` + account_id + `/sub/` + sub_account_id + `/metadata`
 	response, err := tool.Http_Get(url, nil)
 	if err != nil {

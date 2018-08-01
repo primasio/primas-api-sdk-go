@@ -10,17 +10,17 @@ import (
 	"github.com/primasio/primas-api-sdk-go/core/tool"
 )
 
-type AccountContentList struct {
+type AccountSharesList struct {
 	core.Response
-	Data []dtcpv1.ContentGet `json:"data"`
+	Data []dtcpv1.Share `json:"data"`
 }
 
-func GetAccountContentList(account_id string, page, pageSize int) (*AccountContentList, error) {
+func GetAccountSharesList(account_id string, page, pageSize int) (*AccountSharesList, error) {
 	if account_id == "" {
 		return nil, errors.New("account_id is empty")
 	}
 
-	url := config.CONST_Server + `/accounts/` + account_id + `/content`
+	url := config.CONST_Server + `/accounts/` + account_id + `/shares`
 	queryParams := make(map[string]interface{}, 0)
 	if page > 0 {
 		queryParams["page"] = page
@@ -34,7 +34,7 @@ func GetAccountContentList(account_id string, page, pageSize int) (*AccountConte
 		return nil, err
 	}
 
-	var responseObj AccountContentList
+	var responseObj AccountSharesList
 	err = json.Unmarshal(response, &responseObj)
 	if err != nil {
 		return nil, err
@@ -47,7 +47,7 @@ func GetAccountContentList(account_id string, page, pageSize int) (*AccountConte
 	return &responseObj, nil
 }
 
-func GetSubAccountContentList(account_id, sub_account_id string, page, pageSize int) (*AccountContentList, error) {
+func GetSubAccountSharesList(account_id, sub_account_id string, page, pageSize int) (*AccountSharesList, error) {
 	if account_id == "" {
 		return nil, errors.New("account_id is empty")
 	}
@@ -56,7 +56,7 @@ func GetSubAccountContentList(account_id, sub_account_id string, page, pageSize 
 		return nil, errors.New("sub_account_id is empty")
 	}
 
-	url := config.CONST_Server + `/accounts/` + account_id + `/sub/` + sub_account_id + `/content`
+	url := config.CONST_Server + `/accounts/` + account_id + `/sub/` + sub_account_id + `/shares`
 	queryParams := make(map[string]interface{}, 0)
 	if page > 0 {
 		queryParams["page"] = page
@@ -70,7 +70,7 @@ func GetSubAccountContentList(account_id, sub_account_id string, page, pageSize 
 		return nil, err
 	}
 
-	var responseObj AccountContentList
+	var responseObj AccountSharesList
 	err = json.Unmarshal(response, &responseObj)
 	if err != nil {
 		return nil, err
