@@ -43,6 +43,10 @@ const (
 	CONST_DTCP_Group_AccountRole_Type_Member    = "member"
 	CONST_DTCP_Group_AccountRole_Type_Applicant = "applicant"
 	CONST_DTCP_Group_AccountRole_Type_None      = "none"
+
+	CONST_DTCP_Image_Type_Image = "image"
+	CONST_DTCP_Image_Type_Audio = "audio"
+	CONST_DTCP_Image_Type_Video = "video"
 )
 
 func NewDna(signature string) (string, error) {
