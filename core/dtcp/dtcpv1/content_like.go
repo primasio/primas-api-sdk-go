@@ -45,3 +45,23 @@ func NewContentLikeDelete() *ContentLikeDelete {
 		Status:  CONST_DTCP_Status_Deleted,
 	}
 }
+
+// Get
+type ContentLikeGet struct {
+	Id            string                 `json:"id"`             // Like id.
+	SrcId         string                 `json:"src_id"`         // Account id.
+	DestId        string                 `json:"dest_id"`        // Share id.
+	Creator       *ContentLikeGetCreator `json:"creator"`        // Creator.
+	Created       int                    `json:"created"`        // Like created time. Unix timestamp.
+	Updated       int                    `json:"updated"`        // Like updated time. Unix timestamp.
+	Dna           string                 `json:"dna"`            // Like DNA.
+	Signature     string                 `json:"signature"`      // Metadata signature.
+	TransactionId string                 `json:"transaction_id"` // Latest transaction id.
+}
+
+type ContentLikeGetCreator struct {
+	AccountId      string `json:"account_id"`                 // Account id. Root account id in the case of Sub account posting.
+	AccountName    string `json:"account_name"`               // Account name.
+	SubAccountId   string `json:"sub_account_id,omitempty"`   // Sub account id. Refer to Sub account for details.
+	SubAccountName string `json:"sub_account_name,omitempty"` // Sub account name.
+}

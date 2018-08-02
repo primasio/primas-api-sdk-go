@@ -62,3 +62,28 @@ func NewContentCommentPut() *ContentCommentPut {
 		Status:  CONST_DTCP_Status_Updated,
 	}
 }
+
+// Get
+type ContentCommentGet struct {
+	Id            string                    `json:"id"`             // Comment id.
+	SrcId         string                    `json:"src_id"`         // Account id.
+	DestId        string                    `json:"dest_id"`        // Share id.
+	Creator       *ContentCommentGetCreator `json:"creator"`        // Creator.
+	Created       int                       `json:"created"`        // Comment created time. Unix timestamp.
+	Updated       int                       `json:"updated"`        // Comment created time. Unix timestamp.
+	Extra         *ContentCommentGetExtra   `json:"extra"`          // Extra metadata.
+	Signature     string                    `json:"signature"`      // Metadata signature.
+	TransactionId string                    `json:"transaction_id"` // Latest transaction id.
+}
+
+type ContentCommentGetCreator struct {
+	AccountId      string `json:"account_id"`                 // Account id. Root account id in the case of Sub account posting.
+	AccountName    string `json:"account_name"`               // Account name.
+	SubAccountId   string `json:"sub_account_id,omitempty"`   // Sub account id. Refer to Sub account for details.
+	SubAccountName string `json:"sub_account_name,omitempty"` // Sub account name.
+}
+
+type ContentCommentGetExtra struct {
+	Content  string              `json:"content"`  // Comment content.
+	Comments []ContentCommentGet `json:"comments"` // Replying comments overview.
+}

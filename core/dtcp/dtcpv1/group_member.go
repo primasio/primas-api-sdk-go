@@ -62,3 +62,29 @@ func NewGroupMemberPut() *GroupMemberPut {
 		Status:  CONST_DTCP_Status_Updated,
 	}
 }
+
+// Get
+type GroupMemberGet struct {
+	Id            string                 `json:"id"`              // Group member id.
+	SrcId         string                 `json:"src_id"`          // Account id. Root account id in the case of Sub account.
+	DestId        string                 `json:"dest_id"`         // Group id.
+	Creator       *GroupMemberGetCreator `json:"creator"`         // Creator.
+	Created       int                    `json:"created"`         // Member joining time. Unix timestamp.
+	Updated       int                    `json:"updated"`         // Member updating time. Unix timestamp.
+	Extra         *GroupMemberGetExtra   `json:"extra,omitempty"` // Extra metadata.
+	Signature     string                 `json:"signature"`       // Metadata signature.
+	Dna           string                 `json:"dna"`             // Group member DNA.
+	TransactionId string                 `json:"transaction_id"`  // Latest transaction id.
+	Account       *AccountGet            `json:"account"`         // Related member account.
+}
+
+type GroupMemberGetCreator struct {
+	AccountId      string `json:"account_id"`                 // Account id. Root account id in the case of Sub account posting.
+	AccountName    string `json:"account_name"`               // Account name.
+	SubAccountId   string `json:"sub_account_id,omitempty"`   // Sub account id. Refer to Sub account for details.
+	SubAccountName string `json:"sub_account_name,omitempty"` // Sub account name. For fast creation of new sub accounts.
+}
+
+type GroupMemberGetExtra struct {
+	ApplicationStatus string `json:"application_status"` // "pending", "approved" or "declined".
+}
