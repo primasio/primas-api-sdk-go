@@ -10,31 +10,25 @@ import (
 	"github.com/primasio/primas-api-sdk-go/core/tool"
 )
 
-type AccountShareAppsResponse struct {
+type AccountAvatarResponse struct {
 	core.Response
-	Data []dtcpv1.Share `json:"data"`
+	Data []dtcpv1.ContentGet `json:"data"`
 }
 
-func GetAccountShareApplications(account_id string, page, pageSize int) (*AccountShareAppsResponse, error) {
+func GetAccountAvatarMetadata(account_id string) (*AccountAvatarResponse, error) {
 	if account_id == "" {
 		return nil, errors.New("account_id is empty")
 	}
 
-	url := config.CONST_Server + `/accounts/` + account_id + `/applications/shares`
+	url := config.CONST_Server + `/accounts/` + account_id + `/avatar`
 	queryParams := make(map[string]interface{}, 0)
-	if page > 0 {
-		queryParams["page"] = page
-	}
-	if pageSize > 0 {
-		queryParams["page_size"] = pageSize
-	}
 
 	response, err := tool.Http_Get(url, queryParams)
 	if err != nil {
 		return nil, err
 	}
 
-	var responseObj AccountShareAppsResponse
+	var responseObj AccountAvatarResponse
 	err = json.Unmarshal(response, &responseObj)
 	if err != nil {
 		return nil, err
@@ -47,7 +41,7 @@ func GetAccountShareApplications(account_id string, page, pageSize int) (*Accoun
 	return &responseObj, nil
 }
 
-func GetSubAccountShareApplications(account_id, sub_account_id string, page, pageSize int) (*AccountShareAppsResponse, error) {
+func GetSubAccountAvatarMetadata(account_id, sub_account_id string) (*AccountAvatarResponse, error) {
 	if account_id == "" {
 		return nil, errors.New("account_id is empty")
 	}
@@ -56,21 +50,15 @@ func GetSubAccountShareApplications(account_id, sub_account_id string, page, pag
 		return nil, errors.New("sub_account_id is empty")
 	}
 
-	url := config.CONST_Server + `/accounts/` + account_id + `/sub/` + sub_account_id + `/applications/shares`
+	url := config.CONST_Server + `/accounts/` + account_id + `/sub/` + sub_account_id + `/avatar`
 	queryParams := make(map[string]interface{}, 0)
-	if page > 0 {
-		queryParams["page"] = page
-	}
-	if pageSize > 0 {
-		queryParams["page_size"] = pageSize
-	}
 
 	response, err := tool.Http_Get(url, queryParams)
 	if err != nil {
 		return nil, err
 	}
 
-	var responseObj AccountShareAppsResponse
+	var responseObj AccountAvatarResponse
 	err = json.Unmarshal(response, &responseObj)
 	if err != nil {
 		return nil, err

@@ -52,6 +52,10 @@ func GetSubAccountComments(account_id, sub_account_id string, page, pageSize int
 		return nil, errors.New("account_id is empty")
 	}
 
+	if sub_account_id == "" {
+		return nil, errors.New("sub_account_id is empty")
+	}
+
 	url := config.CONST_Server + `/accounts/` + account_id + `/sub/` + sub_account_id + `/comments`
 	queryParams := make(map[string]interface{}, 0)
 	if page > 0 {
