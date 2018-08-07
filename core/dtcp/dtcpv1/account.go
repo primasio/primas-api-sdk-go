@@ -1,10 +1,11 @@
 package dtcpv1
 
 type AccountPost struct {
-	Version   string              `json:"version"`             // DTCP version. Fixed to "1.0".
-	Atype     string              `json:"type"`                // Fixed to "object".
-	Tag       string              `json:"tag"`                 // Fixed to "account".
-	Name      string              `json:"name"`                // Name.
+	Version   string              `json:"version"` // DTCP version. Fixed to "1.0".
+	Atype     string              `json:"type"`    // Fixed to "object".
+	Tag       string              `json:"tag"`     // Fixed to "account".
+	Name      string              `json:"name"`    // Name.
+	Address   string              `json:"address"`
 	Abstract  string              `json:"abstract,omitempty"`  // Description.
 	Avatar    string              `json:"avatar,omitempty"`    // An image id used for avatar.
 	Creator   *AccountPostCreator `json:"creator,omitempty"`   // Creator. Required when creating sub account.

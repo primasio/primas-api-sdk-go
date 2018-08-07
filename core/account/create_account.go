@@ -20,19 +20,13 @@ type CreateAccountResponse struct {
 	Data *CreateAccountResult `json:"data"`
 }
 
-func CreateAccount(name, abstract, avatar, account_id, sub_account_id string, created int,
-	extra_hash string) (*CreateAccountResponse, error) {
-	if created < 0 {
-		return nil, errors.New("created less than zero")
-	}
-	if name == "" {
-		return nil, errors.New("name is empty")
-	}
-
+// CreateAccount Signature string value
+func CreateAccount_SignatureStr(name, abstract, avatar, account_id, sub_account_id string, created int,
+	extra_hash string) (string, *dtcpv1.AccountPost, error) {
 	var newCreator *dtcpv1.AccountPostCreator
 	if account_id != "" {
 		if sub_account_id == "" {
-			return nil, errors.New("account_id and sub_account_id ")
+			return "", nil, errors.New("account_id and sub_account_id ")
 		} else {
 			newCreator = &dtcpv1.AccountPostCreator{
 				AccountId:    account_id,
@@ -60,21 +54,34 @@ func CreateAccount(name, abstract, avatar, account_id, sub_account_id string, cr
 		locAccountPost.Extra = newExtra
 	}
 
+	err := createAccount_check(locAccountPost)
+	if err != nil {
+		return "", nil, err
+	}
+
 	sigSoure, err := tool.StructToSignature(locAccountPost)
 	if err != nil {
-		return nil, err
+		return "", nil, err
 	}
-	privateKey := tool.GetClientPrivateKey()
 
-	signature, err := tool.Sign([]byte(sigSoure), privateKey)
+	return sigSoure, locAccountPost, nil
+}
+
+func CreateAccount(signature string, preObj *dtcpv1.AccountPost) (*CreateAccountResponse, error) {
+	if signature == "" {
+		return nil, errors.New("param signature is empty")
+	}
+
+	err := createAccount_check(preObj)
 	if err != nil {
 		return nil, err
 	}
-	locAccountPost.Signature = signature
+
+	preObj.Signature = signature
 
 	url := config.CONST_Server + `/accounts`
 
-	requestBody, err := json.Marshal(locAccountPost)
+	requestBody, err := json.Marshal(preObj)
 	if err != nil {
 		return nil, err
 	}
@@ -95,4 +102,43 @@ func CreateAccount(name, abstract, avatar, account_id, sub_account_id string, cr
 	}
 
 	return &responseObj, nil
+}
+
+func createAccount_check(preObj *dtcpv1.AccountPost) error {
+	if preObj == nil {
+		return errors.New("param preObj is nil")
+	}
+
+	if preObj.Created < 0 {
+		return errors.New("created less than zero")
+	}
+	if preObj.Name == "" {
+		return errors.New("name is empty")
+	}
+
+	if preObj.Version != dtcpv1.CONST_DTCP_Version_v1 {
+		return errors.New("param version error")
+	}
+
+	if preObj.Atype != dtcpv1.CONST_DTCP_Type_Object {
+		return errors.New("param type error")
+	}
+
+	if preObj.Tag != dtcpv1.CONST_DTCP_Tag_Account {
+		return errors.New("param tag error")
+	}
+
+	if preObj.Created <= 0 {
+		return errors.New("param created error")
+	}
+
+	if preObj.Address == "" {
+		return errors.New("param address is empty")
+	}
+
+	if preObj.Status != dtcpv1.CONST_DTCP_Status_Created {
+		return errors.New("param status error")
+	}
+
+	return nil
 }

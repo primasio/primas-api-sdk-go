@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/primasio/primas-api-sdk-go/core"
+	"github.com/primasio/primas-api-sdk-go/core/tool"
 )
 
 func TestCreateAccount(t *testing.T) {
@@ -16,9 +17,32 @@ func TestCreateAccount(t *testing.T) {
 	created := time.Now().Unix()
 	extra_hash := "test_value"
 
-	createAccount, err := CreateAccount(name, abstract, avatar, account_id, sub_account_id, int(created), extra_hash)
+	signature, preObj, err := CreateAccount_SignatureStr(name, abstract, avatar, account_id, sub_account_id, int(created), extra_hash)
 	if err != nil {
-		t.Errorf("CreateAccount error:%v", err.Error())
+		t.Errorf("CreateAccount_SignatureStr error:%v", err.Error())
+		return
+	}
+	if preObj == nil {
+		t.Errorf("CreateAccount_SignatureStr preObj object is nil")
+		return
+	}
+	if signature == "" {
+		t.Errorf("CreateAccount_SignatureStr signature value is empty")
+		return
+	}
+
+	// mock Sign
+	privateKey := tool.GetClientPrivateKey()
+	signValue, err := tool.Sign([]byte(signature), privateKey)
+	if err != nil {
+		t.Errorf("Sign error %v:", err.Error())
+		return
+	}
+	//
+
+	createAccount, err := CreateAccount(signValue, preObj)
+	if err != nil {
+		t.Errorf("CreateAccount error %v:", err.Error())
 		return
 	}
 

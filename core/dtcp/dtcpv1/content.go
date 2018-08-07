@@ -34,7 +34,7 @@ func NewContentPost_Aritcle() *ContentPost {
 	}
 }
 
-func NewContentPost_Iamge() *ContentPost {
+func NewContentPost_Image() *ContentPost {
 	return &ContentPost{
 		Version: CONST_DTCP_Version_v1,
 		Atype:   CONST_DTCP_Type_Object,
