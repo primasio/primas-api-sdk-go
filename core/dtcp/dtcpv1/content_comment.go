@@ -22,6 +22,7 @@ type ContentCommentPostCreator struct {
 type ContentCommentPostExtra struct {
 	ParentCommentId string `json:"parent_comment_id,omitempty"` // Parent comment id.
 	Content         string `json:"content"`                     // Comment content.
+	ContentHash     string `json:"content_hash"`                // Lowercase hex string of the SHA256 hash of the raw content.
 }
 
 func NewContentCommentPost() *ContentCommentPost {
@@ -51,7 +52,8 @@ type ContentCommentPutCreator struct {
 }
 
 type ContentCommentPutExtra struct {
-	Content string `json:"content"` //Comment content.
+	Content     string `json:"content"`      //Comment content.
+	ContentHash string `json:"content_hash"` // Lowercase hex string of the SHA256 hash of the raw content.
 }
 
 func NewContentCommentPut() *ContentCommentPut {
