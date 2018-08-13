@@ -153,5 +153,16 @@ func postGroup_check(preObj *dtcpv1.GroupPost) error {
 		return errors.New("parameter allow_join error")
 	}
 
+	if preObj.Extra.AllowJoin != dtcpv1.CONST_DTCP_Group_AllowJoin_Type_all &&
+		preObj.Extra.AllowJoin != dtcpv1.CONST_DTCP_Group_AllowJoin_Type_application {
+		return errors.New("param allow_join error")
+	}
+
+	if preObj.Extra.AllowPost != dtcpv1.CONST_DTCP_Group_AllowPost_Type_all &&
+		preObj.Extra.AllowPost != dtcpv1.CONST_DTCP_Group_AllowPost_Type_none &&
+		preObj.Extra.AllowPost != dtcpv1.CONST_DTCP_Group_AllowPost_Type_application {
+		return errors.New("param allow_post error")
+	}
+
 	return nil
 }

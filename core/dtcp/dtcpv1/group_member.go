@@ -27,7 +27,7 @@ type GroupMemberPostExtra struct {
 func NewGroupMemberPost() *GroupMemberPost {
 	return &GroupMemberPost{
 		Version: CONST_DTCP_Version_v1,
-		Atype:   CONST_DTCP_Type_Object,
+		Atype:   CONST_DTCP_Type_Relation,
 		Tag:     CONST_DTCP_Tag_Group_member,
 		Status:  CONST_DTCP_Status_Created,
 	}
