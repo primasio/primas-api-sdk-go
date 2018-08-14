@@ -1,6 +1,7 @@
 package content
 
 import (
+	"encoding/hex"
 	"io/ioutil"
 	"log"
 	"testing"
@@ -133,6 +134,55 @@ func TestPostContent_ImageUrlencoded(t *testing.T) {
 	}
 }
 
+func TestPostContent_Image(t *testing.T) {
+	imageFilePath := "/Users/kevinchen/Desktop/test.png"
+	contentBody, err := ioutil.ReadFile(imageFilePath)
+	if err != nil {
+		t.Errorf("TestPostContent_Image error:%v", err.Error())
+		return
+	}
+
+	log.Printf("img hex:%v", hex.EncodeToString(contentBody))
+
+	title := "content test"
+	account_id := "32fc4139f7d0347ca9ea70d30caad45a5d90fc23aaefacedf6bff2746e2073f3"
+	sub_account_id := ""
+	sub_account_name := ""
+	abstract := "abstract"
+	language := "en-US"
+	category := "test"
+	created := 1534161371 //int(time.Now().Unix())
+	content := string(contentBody)
+
+	signature, preObj, err := PostContent_SignatureStr(dtcpv1.CONST_DTCP_Tag_Image,
+		title, account_id, sub_account_id, sub_account_name, abstract, language, category,
+		created, content, nil)
+	if err != nil {
+		t.Errorf("TestPostContent_Image error:%v", err.Error())
+		return
+	}
+	if preObj == nil {
+		t.Errorf("TestPostContent_Image preObj object is nil")
+		return
+	}
+	if signature == "" {
+		t.Errorf("TestPostContent_Image signature value is empty")
+		return
+	}
+
+	log.Println("signature:", signature)
+
+	// mock Sign
+	privateKey := tool.GetClientPrivateKey()
+	signValue, err := tool.Sign([]byte(signature), privateKey)
+	if err != nil {
+		t.Errorf("Sign error %v:", err.Error())
+		return
+	}
+
+	log.Println("signValue:%v", signValue)
+}
+
 func TestPostContent_ImageMultipartForm(t *testing.T) {
 	imageFilePath := "/Users/kevinchen/Downloads/jianpan.jpg"
 	contentBody, err := ioutil.ReadFile(imageFilePath)
@@ -167,7 +217,7 @@ func TestPostContent_ImageMultipartForm(t *testing.T) {
 		return
 	}
 
-	//log.Println("signature:", signature)
+	log.Println("signature:", signature)
 
 	// mock Sign
 	privateKey := tool.GetClientPrivateKey()

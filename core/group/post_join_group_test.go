@@ -51,7 +51,7 @@ func TestPostJoinGroup(t *testing.T) {
 	}
 
 	if postJoinGroup != nil {
-		t.Logf("TestPostGroup response value:%v", postJoinGroup)
+		t.Logf("TestPostJoinGroup response value:%v", postJoinGroup)
 		if postJoinGroup.ResultCode != core.CONST_ResultCode_Success {
 			t.Errorf("TestPostJoinGroup response error:%v", postJoinGroup.ResultMsg)
 			return
