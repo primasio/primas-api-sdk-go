@@ -5,8 +5,8 @@ import (
 	"errors"
 	"io/ioutil"
 
-	"github.com/ethereum/go-ethereum/accounts"
-	"github.com/ethereum/go-ethereum/accounts/keystore"
+	"github.com/primasio/go-ethereum/accounts"
+	"github.com/primasio/go-ethereum/accounts/keystore"
 	"github.com/primasio/primas-api-sdk-go/config"
 )
 

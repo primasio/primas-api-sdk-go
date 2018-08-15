@@ -4,7 +4,7 @@ import (
 	"encoding/hex"
 	"errors"
 
-	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/primasio/go-ethereum/crypto"
 )
 
 const (

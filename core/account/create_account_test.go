@@ -69,22 +69,45 @@ func TestCreateAccount_sub(t *testing.T) {
 	created := time.Now().Unix()
 	extra_hash := "test_value"
 
-	createAccount, err := CreateAccount(name, abstract, avatar, account_id, sub_account_id, int(created), extra_hash)
+	signature, preObj, err := CreateAccount_SignatureStr(name, abstract, avatar, account_id, sub_account_id, int(created), extra_hash)
 	if err != nil {
-		t.Errorf("CreateAccount error:%v", err.Error())
+		t.Errorf("TestCreateAccount_sub error:%v", err.Error())
+		return
+	}
+	if preObj == nil {
+		t.Errorf("TestCreateAccount_sub preObj object is nil")
+		return
+	}
+	if signature == "" {
+		t.Errorf("TestCreateAccount_sub signature value is empty")
+		return
+	}
+
+	// mock Sign
+	privateKey := tool.GetClientPrivateKey()
+	signValue, err := tool.Sign([]byte(signature), privateKey)
+	if err != nil {
+		t.Errorf("Sign error %v:", err.Error())
+		return
+	}
+	//
+
+	createAccount, err := CreateAccount(signValue, preObj)
+	if err != nil {
+		t.Errorf("TestCreateAccount_sub error %v:", err.Error())
 		return
 	}
 
 	if createAccount != nil {
-		t.Logf("CreateAccount response value:%v", createAccount)
+		t.Logf("TestCreateAccount_sub response value:%v", createAccount)
 		if createAccount.ResultCode != core.CONST_ResultCode_Success {
-			t.Errorf("CreateAccount response error:%v", createAccount.ResultMsg)
+			t.Errorf("TestCreateAccount_sub response error:%v", createAccount.ResultMsg)
 			return
 		}
 		if createAccount.Data != nil {
-			t.Logf("CreateAccount response value:%#v", createAccount.Data)
+			t.Logf("TestCreateAccount_sub response value:%v", createAccount.Data)
 		} else {
-			t.Logf("CreateAccount response value don't find ")
+			t.Logf("TestCreateAccount_sub response value don't find ")
 		}
 	}
 }

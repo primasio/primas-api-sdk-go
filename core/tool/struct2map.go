@@ -6,8 +6,8 @@ import (
 	"encoding/json"
 	"strings"
 
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/crypto/secp256k1"
+	"github.com/primasio/go-ethereum/crypto"
+	"github.com/primasio/go-ethereum/crypto/secp256k1"
 	"github.com/shopspring/decimal"
 )
 
