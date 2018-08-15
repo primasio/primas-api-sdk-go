@@ -88,3 +88,29 @@ type GroupMemberGetCreator struct {
 type GroupMemberGetExtra struct {
 	ApplicationStatus string `json:"application_status"` // "pending", "approved" or "declined".
 }
+
+// Delete
+type GroupMemberDelete struct {
+	Version   string                    `json:"version"`    // DTCP version. Fixed to "1.0".
+	Atype     string                    `json:"type"`       // Fixed to "relation".
+	Tag       string                    `json:"tag"`        // Fixed to "group_member".
+	ParentDna string                    `json:"parent_dna"` // Latest group member DNA.
+	Status    string                    `json:"status"`     // "deleted".
+	Updated   int                       `json:"updated"`    // Member quiting time. Unix timestamp.
+	Creator   *GroupMemberDeleteCreator `json:"creator"`    // Creator.
+	Signature string                    `json:"signature"`  // Metadata signature.
+}
+
+type GroupMemberDeleteCreator struct {
+	AccountId    string `json:"account_id"`               // Account id. Root account id in the case of Sub account posting.
+	SubAccountId string `json:"sub_account_id,omitempty"` // Sub account id. Refer to Sub account for details.
+}
+
+func NewGroupMemberDelete() *GroupMemberDelete {
+	return &GroupMemberDelete{
+		Version: CONST_DTCP_Version_v1,
+		Atype:   CONST_DTCP_Type_Relation,
+		Tag:     CONST_DTCP_Tag_Group_member,
+		Status:  CONST_DTCP_Status_Deleted,
+	}
+}
