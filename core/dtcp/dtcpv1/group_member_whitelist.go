@@ -92,7 +92,7 @@ type GroupMemberWhiteGetExtra struct {
 // detele
 type GroupMemberWhitelistDelete struct {
 	Version   string                             `json:"version"`    // DTCP version. Fixed to "1.0".
-	Atype     string                             `json:"atype"`      // Fixed to "relation".
+	Atype     string                             `json:"type"`       // Fixed to "relation".
 	Tag       string                             `json:"tag"`        // Fixed to "group_member_whitelist".
 	ParentDna string                             `json:"parent_dna"` // Latest whitelist DNA.
 	Status    string                             `json:"status"`     // Fixed to "deleted".

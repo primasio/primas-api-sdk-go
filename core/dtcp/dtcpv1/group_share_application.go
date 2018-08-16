@@ -22,6 +22,7 @@ type GroupSharePostCreator struct {
 type GroupSharePostExtra struct {
 	ShareId           string `json:"share_id,omitempty"`           // Parent share id.
 	ApplicationStatus string `json:"application_status,omitempty"` // For group requiring application. Fill "pending".
+	ApplicationExpire int    `json:"application_expire,omitempty"` // Application expiration time.
 }
 
 func NewGroupSharePost() *GroupSharePost {
@@ -60,5 +61,31 @@ func NewGroupShareAppPut() *GroupShareAppPut {
 		Atype:   CONST_DTCP_Type_Relation,
 		Tag:     CONST_DTCP_Tag_Group_share,
 		Status:  CONST_DTCP_Status_Updated,
+	}
+}
+
+// Delete
+type GroupShareDelete struct {
+	Version   string                   `json:"version"`           // DTCP version. Fixed to "1.0".
+	Atype     string                   `json:"type"`              // Fixed to "relation".
+	Tag       string                   `json:"tag"`               // Fixed to "group_share".
+	ParentDna string                   `json:"parent_dna"`        // Latest share DNA.
+	Status    string                   `json:"status"`            // Fixed to "deleted".
+	Updated   int                      `json:"updated"`           // Share updated time. Unix timestamp.
+	Creator   *GroupShareDeleteCreator `json:"creator,omitempty"` // Creator. Group owner.
+	Signature string                   `json:"signature"`         // Metadata signature.
+}
+
+type GroupShareDeleteCreator struct {
+	AccountId    string `json:"account_id"`               // Account id. Root account id in the case of Sub account posting.
+	SubAccountId string `json:"sub_account_id,omitempty"` // Sub account id. Refer to Sub account for details.
+}
+
+func NewGroupShareDelete() *GroupShareDelete {
+	return &GroupShareDelete{
+		Version: CONST_DTCP_Version_v1,
+		Atype:   CONST_DTCP_Type_Relation,
+		Tag:     CONST_DTCP_Tag_Group_share,
+		Status:  CONST_DTCP_Status_Deleted,
 	}
 }
