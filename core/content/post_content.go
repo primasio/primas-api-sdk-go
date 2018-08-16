@@ -51,7 +51,7 @@ func PostContent_SignatureStr(tag, title, account_id, sub_account_id, sub_accoun
 		return "", nil, err
 	}
 
-	sigSoure, err := tool.StructToSignature(newPostContent)
+	sigSoure, err := tool.StructToSignatureByExclude(newPostContent, "content")
 	if err != nil {
 		return "", nil, err
 	}
@@ -126,7 +126,7 @@ func PostContent_ImageUrlencoded(signature string, preObj *dtcpv1.ContentPost) (
 	datas["language"] = preObj.Language
 	datas["category"] = preObj.Category
 	datas["created"] = strconv.Itoa(preObj.Created)
-	datas["content"] = base64.URLEncoding.EncodeToString([]byte(preObj.Content))
+	datas["content"] = base64.StdEncoding.EncodeToString([]byte(preObj.Content))
 	datas["content_hash"] = preObj.ContentHash
 	if preObj.License != nil {
 		licenseArr, err := json.Marshal(preObj.License)

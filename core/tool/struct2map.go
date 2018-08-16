@@ -41,6 +41,32 @@ func StructToSignature(obj interface{}) (string, error) {
 	return eValue, nil
 }
 
+func StructToSignatureByExclude(obj interface{}, excludes ...string) (string, error) {
+	beforeValue, err := json.Marshal(obj)
+	if err != nil {
+		return "", err
+	}
+
+	midResultMap := make(map[string]interface{}, 0)
+
+	jen := json.NewDecoder(bytes.NewBuffer(beforeValue))
+	jen.UseNumber()
+	jen.Decode(&midResultMap)
+
+	delete(midResultMap, loc_fieldnamej_signature)
+
+	for _, item := range excludes {
+		delete(midResultMap, item)
+	}
+
+	eValue, err := jsonMarshal(midResultMap)
+	if err != nil {
+		return "", err
+	}
+
+	return string(eValue), nil
+}
+
 // The default behavior is to escape &, <, and > to \u0026, \u003c, and \u003e
 // to avoid certain safety problems that can arise when embedding JSON in HTML.
 func jsonMarshal(value map[string]interface{}) (string, error) {
