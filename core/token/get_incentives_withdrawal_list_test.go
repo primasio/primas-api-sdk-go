@@ -7,8 +7,8 @@ import (
 )
 
 func TestGetIncentivesWithdrawalList(t *testing.T) {
-	account_id := "809a85f7ddf8ae5aaa49fe30be10e07e09156dc04166fab98bbd7bb42b2dc26c"
-	resultIncentivesWithdrawalList, err := GetIncentivesWithdrawalList(account_id, 1527695509, 1597695509,
+	account_id := "6adb0bc07b6ec4d992d5e0c051249f61024629a0bb5b264156463c788d9dc661"
+	resultIncentivesWithdrawalList, err := GetIncentivesWithdrawalList(account_id, 0, 1534485897,
 		0, 20, CONST_Incetives_Withdrawal_Status_Pending)
 	if err != nil {
 		t.Errorf("GetIncentivesWithdrawalList error:%v", err.Error())

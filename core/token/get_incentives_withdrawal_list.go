@@ -15,16 +15,23 @@ const (
 	CONST_Incetives_Withdrawal_Status_Done    = "done"
 )
 
+type TransactionObj struct {
+	Transaction_id     string `json:"transaction_id,omitempty"`      // Transaction hash.
+	BlockNumber        int    `json:"block_number,omitempty"`        // Block number of this transaction.
+	BlockConfirmations int    `json:"block_confirmations,omitempty"` // Block confirmation time.
+	EstimatedTime      int    `json:"estimated_time"`                // Estimated confirmation time. Unix timestamp.
+	ConfirmedTime      int    `json:"confirmed_time,omitempty"`      // Confirmation time. Unix timestamp.
+}
+
 type NodeAccountWithdraw struct {
-	Id                string          `json:"id"`                 // Withdrawal id.
-	Created           int             `json:"created"`            // Withdrawal created time. Unix timestamp.
-	Updated           int             `json:"updated"`            // Withdrawal updated time.
-	Amount            decimal.Decimal `json:"amount"`             // Withdrawal amount.
-	BalanceAfter      decimal.Decimal `json:"balance_after"`      // Balance after withdrawal.
-	NodeFee           decimal.Decimal `json:"node_fee"`           // Node charged withdrawal fee.
-	Status            string          `json:"status"`             // Withdrawal status. "pending", "done" or "cancelled".
-	TransactionHash   string          `json:"transaction_hash"`   // Withdrawal transaction hash.
-	TransactionStatus string          `json:"transaction_status"` // Withdrawal transaction status. "pending", "done" or "failed".
+	Id           string          `json:"id"`            // Withdrawal id.
+	Created      int             `json:"created"`       // Withdrawal created time. Unix timestamp.
+	Updated      int             `json:"updated"`       // Withdrawal updated time.
+	Amount       decimal.Decimal `json:"amount"`        // Withdrawal amount.
+	BalanceAfter decimal.Decimal `json:"balance_after"` // Balance after withdrawal.
+	NodeFee      decimal.Decimal `json:"node_fee"`      // Node charged withdrawal fee.
+	Status       string          `json:"status"`        // Withdrawal status. "pending", "done" or "cancelled".
+	Transaction  *TransactionObj `json:"transaction"`   // Withdrawal transaction object
 }
 
 type IncentivesWithdrawalListResponse struct {
