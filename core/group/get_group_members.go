@@ -21,14 +21,13 @@ func GetGroupMembers(group_id string, page, pageSize int, application_status str
 	}
 
 	queryParams := make(map[string]interface{}, 0)
-	url := config.CONST_Server + `/groups/` + group_id + `/members`
-
 	if page > 0 {
 		queryParams["page"] = page
 	}
 	if pageSize > 0 {
 		queryParams["page_size"] = pageSize
 	}
+
 	if application_status != "" {
 		if application_status != dtcpv1.CONST_DTCP_ApplicationStatus_Pending &&
 			application_status != dtcpv1.CONST_DTCP_ApplicationStatus_Approved &&
@@ -38,6 +37,7 @@ func GetGroupMembers(group_id string, page, pageSize int, application_status str
 		queryParams["application_status"] = application_status
 	}
 
+	url := config.CONST_Server + `/groups/` + group_id + `/members`
 	response, err := tool.Http_Get(url, queryParams)
 	if err != nil {
 		return nil, err

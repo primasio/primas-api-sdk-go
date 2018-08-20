@@ -1,4 +1,4 @@
-package group
+package timeline
 
 import (
 	"encoding/json"
@@ -10,29 +10,32 @@ import (
 	"github.com/primasio/primas-api-sdk-go/core/tool"
 )
 
-type GetGroupMetadataResponse struct {
+type GetAccountTimelineResponse struct {
 	core.Response
-	Data *dtcpv1.GroupGet `json:"data"`
+	Data []dtcpv1.Share `json:"data"`
 }
 
-func GetGroupMetadata(group_id, account_id string) (*GetGroupMetadataResponse, error) {
-	if group_id == "" {
-		return nil, errors.New("group_id is empty")
+func GetAccountTimeline(account_id string, page, pageSize int) (*GetAccountTimelineResponse, error) {
+	if account_id == "" {
+		return nil, errors.New("account_id is empty")
 	}
 
 	queryParams := make(map[string]interface{}, 0)
-	if account_id != "" {
-		queryParams["account_id"] = account_id
+	if page > 0 {
+		queryParams["page"] = page
+	}
+	if pageSize > 0 {
+		queryParams["page_size"] = pageSize
 	}
 
-	url := config.CONST_Server + `/groups/` + group_id
+	url := config.CONST_Server + `/accounts/` + account_id + `/timeline`
 
 	response, err := tool.Http_Get(url, queryParams)
 	if err != nil {
 		return nil, err
 	}
 
-	var responseObj GetGroupMetadataResponse
+	var responseObj GetAccountTimelineResponse
 	err = json.Unmarshal(response, &responseObj)
 	if err != nil {
 		return nil, err

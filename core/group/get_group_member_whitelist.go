@@ -21,8 +21,6 @@ func GetGroupMemberWhitelist(group_id string, page, pageSize int, application_st
 	}
 
 	queryParams := make(map[string]interface{}, 0)
-	url := config.CONST_Server + `/groups/` + group_id + `/whitelist/members`
-
 	if page > 0 {
 		queryParams["page"] = page
 	}
@@ -37,6 +35,8 @@ func GetGroupMemberWhitelist(group_id string, page, pageSize int, application_st
 		}
 		queryParams["application_status"] = application_status
 	}
+
+	url := config.CONST_Server + `/groups/` + group_id + `/whitelist/members`
 
 	response, err := tool.Http_Get(url, queryParams)
 	if err != nil {

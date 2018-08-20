@@ -21,8 +21,6 @@ func GetGroupShares(group_id string, page, pageSize int, application_status stri
 	}
 
 	queryParams := make(map[string]interface{}, 0)
-	url := config.CONST_Server + `/groups/` + group_id + `/shares`
-
 	if page > 0 {
 		queryParams["page"] = page
 	}
@@ -37,6 +35,8 @@ func GetGroupShares(group_id string, page, pageSize int, application_status stri
 		}
 		queryParams["application_status"] = application_status
 	}
+
+	url := config.CONST_Server + `/groups/` + group_id + `/shares`
 
 	response, err := tool.Http_Get(url, queryParams)
 	if err != nil {
