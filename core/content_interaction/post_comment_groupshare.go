@@ -21,7 +21,7 @@ type PostCommentGroupshareResponse struct {
 }
 
 func PostCommentOfGroupshare_SignatureStr(account_id, share_id, sub_account_id, sub_account_name string,
-	created int, parent_comment_id, content string) (string, *dtcpv1.ContentCommentPost, error) {
+	hp, created int, parent_comment_id, content string) (string, *dtcpv1.ContentCommentPost, error) {
 	newPostCommentCreator := dtcpv1.ContentCommentPostCreator{
 		AccountId: account_id,
 	}
@@ -44,6 +44,7 @@ func PostCommentOfGroupshare_SignatureStr(account_id, share_id, sub_account_id, 
 	newCommentGroupshare := dtcpv1.NewContentCommentPost()
 	newCommentGroupshare.SrcId = account_id
 	newCommentGroupshare.DestId = share_id
+	newCommentGroupshare.Hp = hp
 	newCommentGroupshare.Creator = &newPostCommentCreator
 	newCommentGroupshare.Created = created
 	newCommentGroupshare.Extra = &newPostCommentExtra

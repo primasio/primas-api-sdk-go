@@ -6,6 +6,7 @@ type ContentCommentPost struct {
 	Tag       string                     `json:"tag"`                 // Fixed to "share_comment".
 	SrcId     string                     `json:"src_id"`              // Account id.
 	DestId    string                     `json:"dest_id"`             // Share id.
+	Hp        int                        `json:"hp"`                  // hp value
 	Creator   *ContentCommentPostCreator `json:"creator"`             // Creator.
 	Created   int                        `json:"created"`             // Comment created time. Unix timestamp.
 	Status    string                     `json:"status"`              // Fixed to "created".
@@ -70,6 +71,7 @@ type ContentCommentGet struct {
 	Id            string                    `json:"id"`             // Comment id.
 	SrcId         string                    `json:"src_id"`         // Account id.
 	DestId        string                    `json:"dest_id"`        // Share id.
+	Hp            int                       `json:"hp"`             // hp value
 	Creator       *ContentCommentGetCreator `json:"creator"`        // Creator.
 	Created       int                       `json:"created"`        // Comment created time. Unix timestamp.
 	Updated       int                       `json:"updated"`        // Comment created time. Unix timestamp.

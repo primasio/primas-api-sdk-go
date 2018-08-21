@@ -32,4 +32,5 @@ type ShareExtra struct {
 	IsLiked       bool              `json:"is_liked,omitempty"` // Whether current account liked this share.
 	Content       *ContentGet       `json:"content"`            // Share related content.
 	Report        *ContentReportGet `json:"report,omitempty"`   // Report metadata.
+	Hp            int               `json:"hp"`                 // hp value.
 }

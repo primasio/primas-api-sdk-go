@@ -21,7 +21,7 @@ type PostShareGroupResponse struct {
 	Data *PostShareGroupResult `json:"data"`
 }
 
-func PostShareToGroup_SignatureStr(src_id, dest_id, account_id, sub_account_id, sub_account_name string, created int,
+func PostShareToGroup_SignatureStr(src_id, dest_id, account_id, sub_account_id, sub_account_name string, hp, created int,
 	share_id, application_status string, application_expire int) (string, *dtcpv1.GroupSharePost, error) {
 	var newCreator dtcpv1.GroupSharePostCreator
 	newCreator.AccountId = account_id
@@ -36,6 +36,7 @@ func PostShareToGroup_SignatureStr(src_id, dest_id, account_id, sub_account_id, 
 	newPostShareGroup := dtcpv1.NewGroupSharePost()
 	newPostShareGroup.SrcId = src_id
 	newPostShareGroup.DestId = dest_id
+	newPostShareGroup.Hp = hp
 	newPostShareGroup.Creator = &newCreator
 	newPostShareGroup.Created = created
 	newPostShareGroup.Extra = &newExtra

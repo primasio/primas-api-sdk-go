@@ -10,17 +10,18 @@ import (
 )
 
 func TestPostShareToGroup(t *testing.T) {
-	src_id := `9d3babdfb0a4053ebaefc4570040b90207e6a903026d20c228c46d1e52e64775`
+	src_id := `4bc8766e65e89fd7449683b993e7efc91cbfe715632bdcb8b0ff4c63a98b9cf7`
 	dest_id := `53687b42c97eb2dc38eac2483b7623d17ad4337dbec1cc54369cc8f26b52a71d`
 	account_id := `32fc4139f7d0347ca9ea70d30caad45a5d90fc23aaefacedf6bff2746e2073f3`
 	sub_account_id := ``
 	sub_account_name := ``
+	hp := 1
 	created := int(time.Now().Unix())
 	share_id := "" // "631807f6f03a6799164683081836f4073c94af89148f8d4b42d1582dda5ae843"
 	application_status := "pending"
 	application_expire := int(time.Unix(9*60*60, 0).Unix())
-	signature, preObj, err := PostShareToGroup_SignatureStr(src_id, dest_id, account_id, sub_account_id, sub_account_name, created,
-		share_id, application_status, application_expire)
+	signature, preObj, err := PostShareToGroup_SignatureStr(src_id, dest_id, account_id, sub_account_id, sub_account_name,
+		hp, created, share_id, application_status, application_expire)
 	if err != nil {
 		t.Errorf("TestPostShareToGroup error:%v", err.Error())
 		return

@@ -6,6 +6,7 @@ type GroupSharePost struct {
 	Tag       string                 `json:"tag"`                 // Fixed to "group_share".
 	SrcId     string                 `json:"src_id"`              // Content id.
 	DestId    string                 `json:"dest_id"`             // Group id.
+	Hp        int                    `json:"hp"`                  // hp value. Greater than or equal to zero.
 	Creator   *GroupSharePostCreator `json:"creator"`             // Creator.
 	Created   int                    `json:"created"`             // Share created time. Unix timestamp.
 	Status    string                 `json:"status"`              // Fixed to "created".

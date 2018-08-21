@@ -6,6 +6,7 @@ type ContentLikePost struct {
 	Tag       string                  `json:"tag"`                 // Fixed to "share_like".
 	SrcId     string                  `json:"src_id"`              // Account id.
 	DestId    string                  `json:"dest_id"`             // Share id.
+	Hp        int                     `json:"hp"`                  // hp value. Greater than or equal to zero.
 	Creator   *ContentLikePostCreator `json:"creator"`             // Creator.
 	Created   int                     `json:"created"`             // Like created time. Unix timestamp.
 	Status    string                  `json:"status"`              // Fixed to "created".
@@ -51,6 +52,7 @@ type ContentLikeGet struct {
 	Id            string                 `json:"id"`             // Like id.
 	SrcId         string                 `json:"src_id"`         // Account id.
 	DestId        string                 `json:"dest_id"`        // Share id.
+	Hp            int                    `json:"hp"`             // hp value.
 	Creator       *ContentLikeGetCreator `json:"creator"`        // Creator.
 	Created       int                    `json:"created"`        // Like created time. Unix timestamp.
 	Updated       int                    `json:"updated"`        // Like updated time. Unix timestamp.

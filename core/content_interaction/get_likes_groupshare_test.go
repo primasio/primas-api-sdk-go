@@ -7,7 +7,7 @@ import (
 )
 
 func TestGetLikesOfGroupshare(t *testing.T) {
-	share_id := "60e4388167b2cb963964409b87510c57f8ba5a39487a900efc29b677d62cf449"
+	share_id := "7187ddc476076fce73201ba91d20600e46b8f2d18d828fa7438c2bbd536ba115"
 	resultGetLikesOfGroupshare, err := GetLikesOfGroupshare(share_id, "", 0, 20)
 	if err != nil {
 		t.Errorf("GetLikesOfGroupshare error:%v", err.Error())

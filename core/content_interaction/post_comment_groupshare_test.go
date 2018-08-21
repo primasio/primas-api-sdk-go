@@ -10,14 +10,15 @@ import (
 
 func TestPostCommentOfGroupshare(t *testing.T) {
 	account_id := "32fc4139f7d0347ca9ea70d30caad45a5d90fc23aaefacedf6bff2746e2073f3"
-	share_id := "60e4388167b2cb963964409b87510c57f8ba5a39487a900efc29b677d62cf449"
+	share_id := "7187ddc476076fce73201ba91d20600e46b8f2d18d828fa7438c2bbd536ba115"
 	sub_account_id := ""
 	sub_account_name := ""
 	parent_comment_id := ""
 	content := "nice"
+	hp := 1
 	created := time.Now().Unix()
 	signature, preObj, err := PostCommentOfGroupshare_SignatureStr(account_id, share_id, sub_account_id,
-		sub_account_name, int(created), parent_comment_id, content)
+		sub_account_name, hp, int(created), parent_comment_id, content)
 	if err != nil {
 		t.Errorf("TestPostCommentOfGroupshare error:%v", err.Error())
 		return

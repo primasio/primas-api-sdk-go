@@ -21,7 +21,7 @@ type PostLikeGroupshareResponse struct {
 }
 
 func PostLikeOfGroupshare_SignatureStr(account_id, share_id, sub_account_id, sub_account_name string,
-	created int) (string, *dtcpv1.ContentLikePost, error) {
+	hp, created int) (string, *dtcpv1.ContentLikePost, error) {
 	newPostLikeCreator := dtcpv1.ContentLikePostCreator{
 		AccountId: account_id,
 	}
@@ -35,6 +35,7 @@ func PostLikeOfGroupshare_SignatureStr(account_id, share_id, sub_account_id, sub
 	newLikeGroupshare := dtcpv1.NewContentLikePost()
 	newLikeGroupshare.SrcId = account_id
 	newLikeGroupshare.DestId = share_id
+	newLikeGroupshare.Hp = hp
 	newLikeGroupshare.Creator = &newPostLikeCreator
 	newLikeGroupshare.Created = created
 
