@@ -8,5 +8,5 @@ const (
 	CONST_Mainnet_Server   = "https://rigel-a.primas.network"
 	CONST_Localhost_Server = "http://10.0.0.5:8080"
 
-	CONST_Server = CONST_Localhost_Server + "/" + CONST_Server_Version
+	CONST_Server = CONST_Testnet_Server + "/" + CONST_Server_Version
 )
