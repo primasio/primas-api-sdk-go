@@ -13,3 +13,5 @@
 /primas-api-sdk-go
 /vgo
 /vendor
+/build.sh
+/build_linux.sh

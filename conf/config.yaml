@@ -1,0 +1,4 @@
+---
+server_version : "v3"
+keystore_passphrase : "Test123:::"
+server_url : "https://staging.primas.io"
