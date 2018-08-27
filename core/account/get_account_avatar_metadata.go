@@ -19,6 +19,7 @@ package account
 import (
 	"encoding/json"
 	"errors"
+	"log"
 
 	"github.com/primasio/primas-api-sdk-go/config"
 	"github.com/primasio/primas-api-sdk-go/core"
@@ -28,7 +29,7 @@ import (
 
 type AccountAvatarResponse struct {
 	core.Response
-	Data []dtcpv1.ContentGet `json:"data"`
+	Data *dtcpv1.ContentGet `json:"data"`
 }
 
 func GetAccountAvatarMetadata(account_id string) (*AccountAvatarResponse, error) {
@@ -43,6 +44,8 @@ func GetAccountAvatarMetadata(account_id string) (*AccountAvatarResponse, error)
 	if err != nil {
 		return nil, err
 	}
+
+	log.Printf("response:%+v", string(response))
 
 	var responseObj AccountAvatarResponse
 	err = json.Unmarshal(response, &responseObj)
