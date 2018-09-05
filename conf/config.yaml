@@ -2,3 +2,8 @@
 server_version : "v3"
 keystore_passphrase : "Test123:::"
 server_url : "https://staging.primas.io"
+keystore_dir : "./keystore"
+
+# testing env, change CONST_Config_Dir in "config.go"
+localtest_server_url : "http://10.0.0.5:8080"
+Localtest_keystore_dir : "/Users/kevinchen/Documents/Golang/primas/primas-api-sdk-go/src/github.com/primasio/primas-api-sdk-go/keystore"

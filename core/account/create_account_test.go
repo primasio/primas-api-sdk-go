@@ -25,6 +25,7 @@ import (
 )
 
 func TestCreateAccount(t *testing.T) {
+	address := "0xd75407ad8cabeeebfed78c4f3794208b3339fbf4"
 	name := "kevin"
 	abstract := "kevin test"
 	avatar := "06354a3ee794cf210e0db0d6729710ee047227d679668de697431fdbd1232ffc"
@@ -33,7 +34,7 @@ func TestCreateAccount(t *testing.T) {
 	created := time.Now().Unix()
 	extra_hash := "test_value"
 
-	signature, preObj, err := CreateAccount_SignatureStr(name, abstract, avatar, account_id, sub_account_id, int(created), extra_hash)
+	signature, preObj, err := CreateAccount_SignatureStr(address, name, abstract, avatar, account_id, sub_account_id, int(created), extra_hash)
 	if err != nil {
 		t.Errorf("CreateAccount_SignatureStr error:%v", err.Error())
 		return
@@ -77,15 +78,16 @@ func TestCreateAccount(t *testing.T) {
 }
 
 func TestCreateAccount_sub(t *testing.T) {
+	address := "0xd75407ad8cabeeebfed78c4f3794208b3339fbf4"
 	name := "yoyou"
 	abstract := "yoyou test"
 	avatar := "06354a3ee794cf210e0db0d6729710ee047227d679668de697431fdbd1232ffc"
-	account_id := "32fc4139f7d0347ca9ea70d30caad45a5d90fc23aaefacedf6bff2746e2073f3"
+	account_id := "2fe750b56cc7f0949803fdd94075337cfb64a8f48c44b542ac4daaa52b799886"
 	sub_account_id := "a_0006"
 	created := time.Now().Unix()
 	extra_hash := "test_value"
 
-	signature, preObj, err := CreateAccount_SignatureStr(name, abstract, avatar, account_id, sub_account_id, int(created), extra_hash)
+	signature, preObj, err := CreateAccount_SignatureStr(address, name, abstract, avatar, account_id, sub_account_id, int(created), extra_hash)
 	if err != nil {
 		t.Errorf("TestCreateAccount_sub error:%v", err.Error())
 		return

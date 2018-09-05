@@ -19,6 +19,7 @@ package tool
 import (
 	"encoding/hex"
 	"errors"
+	"fmt"
 	"io/ioutil"
 
 	"github.com/primasio/go-ethereum/accounts"
@@ -31,9 +32,10 @@ var clientKeystore *keystore.KeyStore
 var clientAddress string
 var clientPrivateKey string
 
-func init() {
-	fileDir := "../../keystore"
-	clientKeystore = keystore.NewKeyStore(fileDir, keystore.LightScryptN, keystore.LightScryptP)
+func LoadKeystore() {
+	fmt.Println("Gogal_Keystore_Dir:", config.Gogal_Keystore_Dir)
+
+	clientKeystore = keystore.NewKeyStore(config.Gogal_Keystore_Dir, keystore.LightScryptN, keystore.LightScryptP)
 
 	if len(clientKeystore.Accounts()) == 0 {
 		panic(errors.New("client account not found"))
@@ -41,7 +43,7 @@ func init() {
 
 	clientAccount = &clientKeystore.Accounts()[0]
 
-	files, err := ioutil.ReadDir(fileDir)
+	files, err := ioutil.ReadDir(config.Gogal_Keystore_Dir)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -50,7 +52,7 @@ func init() {
 		panic("keystore is nil")
 	}
 
-	keyJson, err := ioutil.ReadFile(fileDir + "/" + files[0].Name())
+	keyJson, err := ioutil.ReadFile(config.Gogal_Keystore_Dir + "/" + files[0].Name())
 	if err != nil {
 		panic(err.Error())
 	}
@@ -70,17 +72,29 @@ func init() {
 }
 
 func GetClientAccount() *accounts.Account {
+	if clientAccount == nil {
+		LoadKeystore()
+	}
 	return clientAccount
 }
 
 func GetClientKeystore() *keystore.KeyStore {
+	if clientKeystore == nil {
+		LoadKeystore()
+	}
 	return clientKeystore
 }
 
 func GetClientAddress() string {
+	if clientAddress == "" {
+		LoadKeystore()
+	}
 	return clientAddress
 }
 
 func GetClientPrivateKey() string {
+	if clientPrivateKey == "" {
+		LoadKeystore()
+	}
 	return clientPrivateKey
 }

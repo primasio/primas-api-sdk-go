@@ -19,6 +19,7 @@ package account
 import (
 	"encoding/json"
 	"errors"
+	"log"
 
 	"github.com/primasio/primas-api-sdk-go/config"
 	"github.com/primasio/primas-api-sdk-go/core"
@@ -37,7 +38,7 @@ type CreateAccountResponse struct {
 }
 
 // CreateAccount Signature string value
-func CreateAccount_SignatureStr(name, abstract, avatar, account_id, sub_account_id string, created int,
+func CreateAccount_SignatureStr(address, name, abstract, avatar, account_id, sub_account_id string, created int,
 	extra_hash string) (string, *dtcpv1.AccountPost, error) {
 	var newCreator *dtcpv1.AccountPostCreator
 	if account_id != "" {
@@ -59,6 +60,7 @@ func CreateAccount_SignatureStr(name, abstract, avatar, account_id, sub_account_
 	}
 
 	locAccountPost := dtcpv1.NewAccountPost()
+	locAccountPost.Address = address
 	locAccountPost.Name = name
 	locAccountPost.Abstract = abstract
 	locAccountPost.Avatar = avatar
@@ -106,6 +108,8 @@ func CreateAccount(signature string, preObj *dtcpv1.AccountPost) (*CreateAccount
 	if err != nil {
 		return nil, err
 	}
+
+	log.Printf("response:%v", string(response))
 
 	var responseObj CreateAccountResponse
 	err = json.Unmarshal(response, &responseObj)

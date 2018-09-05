@@ -20,11 +20,18 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
+	"strings"
 
 	"github.com/spf13/viper"
 )
 
+const (
+	CONST_Config_Dir = "/Users/kevinchen/Documents/Golang/primas/primas-api-sdk-go/src/github.com/primasio/primas-api-sdk-go/conf"
+)
+
 var (
+	Gogal_Keystore_Dir        string = `/Users/kevinchen/Documents/Golang/primas/primas-api-sdk-go/src/github.com/primasio/primas-api-sdk-go/keystore`
 	Gogal_Keystore_Passphrase string = "Test123:::"
 
 	Gogal_Server_Version   string = "v3"
@@ -32,27 +39,54 @@ var (
 	Gogal_Mainnet_Server   string = "https://rigel-a.primas.network"
 	Gogal_Localhost_Server string = "http://10.0.0.5:8080"
 
-	Gogal_Server string = Gogal_Localhost_Server + "/" + Gogal_Server_Version
+	Gogal_Server string = Gogal_Testnet_Server + "/" + Gogal_Server_Version
 )
 
 var config *viper.Viper
 
 func init() {
 	log.Println("read config init... ")
+	isTesting := false
+	for _, item := range os.Args {
+		if strings.ToLower(item) == "-test.v" {
+			isTesting = true
+			break
+		}
+		if strings.ToLower(item) == "-test.v=true" {
+			isTesting = true
+			break
+		}
+		if strings.ToLower(item) == "-test.run" {
+			isTesting = true
+			break
+		}
+	}
+
 	environment := flag.String("c", "config", "")
 	flag.Parse()
 
 	config := viper.New()
+	if isTesting {
+		log.Println("testing env... ")
+
+		config.AddConfigPath(CONST_Config_Dir)
+	} else {
+		config.AddConfigPath("./conf/")
+	}
 	config.SetConfigType("yaml")
 	config.SetConfigName(*environment)
-	config.AddConfigPath("./conf/")
-	config.ReadInConfig()
 
+	config.ReadInConfig()
 	fmt.Println("config filename:", config.ConfigFileUsed())
 
 	paramServerVersion := config.GetString("server_version")
 	if paramServerVersion != "" {
 		Gogal_Server_Version = paramServerVersion
+	}
+
+	paramKeystoreDir := config.GetString("keystore_dir")
+	if paramKeystoreDir != "" {
+		Gogal_Keystore_Dir = paramKeystoreDir
 	}
 
 	paramKeystorePassphrase := config.GetString("keystore_passphrase")
@@ -65,5 +99,19 @@ func init() {
 		Gogal_Server = paramServerUrl + "/" + Gogal_Server_Version
 	}
 
-	fmt.Println("Gogal_Server:", Gogal_Server)
+	if isTesting {
+		paramLocaltestServerUrl := config.GetString("localtest_server_url")
+		if paramLocaltestServerUrl != "" {
+			Gogal_Server = paramLocaltestServerUrl + "/" + Gogal_Server_Version
+		}
+
+		paramLocaltestKeystoreDir := config.GetString("Localtest_keystore_dir")
+		if paramKeystoreDir != "" {
+			Gogal_Keystore_Dir = paramLocaltestKeystoreDir
+		}
+
+		fmt.Println("Testing Gogal_Server:", Gogal_Server)
+	} else {
+		fmt.Println("Gogal_Server:", Gogal_Server)
+	}
 }

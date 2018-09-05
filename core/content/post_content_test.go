@@ -30,7 +30,7 @@ import (
 
 func TestPostContent_Article(t *testing.T) {
 	title := "test kevin"
-	account_id := "32fc4139f7d0347ca9ea70d30caad45a5d90fc23aaefacedf6bff2746e2073f3"
+	account_id := "2fe750b56cc7f0949803fdd94075337cfb64a8f48c44b542ac4daaa52b799886"
 	sub_account_id := ""
 	sub_account_name := ""
 	abstract := "test abstract kevin"

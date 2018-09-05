@@ -24,7 +24,7 @@ import (
 
 func TestGetRawContent(t *testing.T) {
 	//content_id := "0b0d27adf09b17e4511e210ddeec0cf3136cbc2d214d6d84a80fb37577957c08"
-	content_id := "e8e565872c139fe06eb68c712aec000005475adc29d30ddcf8b0b132abc55eee"
+	content_id := "b7cac9e0f889de3a88ad1b40f71e4f4d9c251bae876094c41a2fefdadc775606"
 	resultRawContent, err := GetRawContent(content_id)
 	if err != nil {
 		t.Errorf("GetRawContent error:%v", err.Error())
