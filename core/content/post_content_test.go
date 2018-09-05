@@ -29,15 +29,15 @@ import (
 )
 
 func TestPostContent_Article(t *testing.T) {
-	title := "test"
+	title := "test kevin"
 	account_id := "32fc4139f7d0347ca9ea70d30caad45a5d90fc23aaefacedf6bff2746e2073f3"
 	sub_account_id := ""
 	sub_account_name := ""
-	abstract := "test abstract"
+	abstract := "test abstract kevin"
 	language := "zh"
 	category := "区块链"
 	created := int(time.Now().Unix())
-	content := "showtime"
+	content := "showtime kevin"
 
 	signature, preObj, err := PostContent_SignatureStr(dtcpv1.CONST_DTCP_Tag_Article,
 		title, account_id, sub_account_id, sub_account_name, abstract, language, category,
@@ -196,7 +196,7 @@ func TestPostContent_Image(t *testing.T) {
 		return
 	}
 
-	log.Println("signValue:%v", signValue)
+	log.Printf("signValue:%v", signValue)
 }
 
 func TestPostContent_ImageMultipartForm(t *testing.T) {

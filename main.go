@@ -17,11 +17,14 @@
 package main
 
 import (
+	"fmt"
+
 	_ "github.com/primasio/go-ethereum"
+	"github.com/primasio/primas-api-sdk-go/config"
 	_ "github.com/shopspring/decimal"
 	_ "github.com/spf13/viper"
 )
 
 func main() {
-
+	fmt.Println("main load config:", config.Gogal_Server)
 }

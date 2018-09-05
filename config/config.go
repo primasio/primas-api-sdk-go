@@ -18,6 +18,7 @@ package config
 
 import (
 	"flag"
+	"fmt"
 	"log"
 
 	"github.com/spf13/viper"
@@ -31,7 +32,7 @@ var (
 	Gogal_Mainnet_Server   string = "https://rigel-a.primas.network"
 	Gogal_Localhost_Server string = "http://10.0.0.5:8080"
 
-	Gogal_Server string = Gogal_Testnet_Server + "/" + Gogal_Server_Version
+	Gogal_Server string = Gogal_Localhost_Server + "/" + Gogal_Server_Version
 )
 
 var config *viper.Viper
@@ -47,6 +48,8 @@ func init() {
 	config.AddConfigPath("./conf/")
 	config.ReadInConfig()
 
+	fmt.Println("config filename:", config.ConfigFileUsed())
+
 	paramServerVersion := config.GetString("server_version")
 	if paramServerVersion != "" {
 		Gogal_Server_Version = paramServerVersion
@@ -61,4 +64,6 @@ func init() {
 	if paramServerUrl != "" {
 		Gogal_Server = paramServerUrl + "/" + Gogal_Server_Version
 	}
+
+	fmt.Println("Gogal_Server:", Gogal_Server)
 }
