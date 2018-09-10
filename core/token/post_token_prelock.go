@@ -26,52 +26,45 @@ import (
 	"github.com/shopspring/decimal"
 )
 
-type AccountIdWithdrawalRequest struct {
-	NodeId    string          `json:"node_id"`   // Node id.
-	Created   int             `json:"created"`   // Withdrawal creation time. Unix timestamp.
-	Amount    decimal.Decimal `json:"amount"`    // Withdraw amount value.
-	NodeFee   decimal.Decimal `json:"node_fee"`  // Node charged withdrawal fee.
-	Signature string          `json:"signature"` // Metadata signature.
+type PreLockTokensRequest struct {
+	Transaction string `json:"transaction"`
 }
 
-type AccountIdWithdrawalId struct {
+type SignPreLock struct {
+	Amount    decimal.Decimal `json:"amount"`    // Pre lock amount
+	Nonce     string          `json:"nonce"`     // User operator nonce id
+	Signature string          `json:"signature"` // User signature
+}
+
+type PreLockTokenId struct {
 	Id string
 }
 
-type AccountIdWithdrawalResponse struct {
+type PreLockTokenResponse struct {
 	core.Response
-	Data *AccountIdWithdrawalId `json:"data"`
+	Data *PreLockTokenId `json:"data"`
 }
 
-func PostWithdrawIncentives(account_id, node_id string, created int, amount decimal.Decimal, node_fee decimal.Decimal) (*AccountIdWithdrawalResponse, error) {
+func PostPreLockTokens(account_id string, amount decimal.Decimal, nonce string) (*PreLockTokenResponse, error) {
 	if account_id == "" {
 		return nil, errors.New("account_id is empty")
 	}
 
-	if node_id == "" {
-		return nil, errors.New("node_id is empty")
+	if amount.Cmp(decimal.Zero) <= 0 {
+		return nil, errors.New("amount value less than zero")
 	}
 
-	if created < 0 {
-		return nil, errors.New("created less than zero")
+	if nonce == "" {
+		return nil, errors.New("noce is empty")
 	}
 
-	if amount.Cmp(decimal.NewFromFloat(0)) <= 0 {
-		return nil, errors.New("amount less than or equal to zero")
+	signPreLock := SignPreLock{
+		Amount:    amount,
+		Nonce:     nonce,
+		Signature: "",
 	}
 
-	if node_fee.Cmp(decimal.NewFromFloat(0)) < 0 {
-		return nil, errors.New("node_fee less than zero")
-	}
-
-	requestValue := AccountIdWithdrawalRequest{
-		NodeId:  node_id,
-		Created: created,
-		Amount:  amount,
-		NodeFee: node_fee,
-	}
-
-	sigSoure, err := tool.StructToSignature(requestValue)
+	sigSoure, err := tool.StructToSignature(signPreLock)
 	if err != nil {
 		return nil, err
 	}
@@ -81,11 +74,20 @@ func PostWithdrawIncentives(account_id, node_id string, created int, amount deci
 	if err != nil {
 		return nil, err
 	}
-	requestValue.Signature = signature
+	signPreLock.Signature = signature
 
-	url := config.Gogal_Server + `/accounts/` + account_id + `/tokens/incentives/withdrawal`
+	transaction, err := json.Marshal(signPreLock)
+	if err != nil {
+		return nil, err
+	}
 
-	requestBody, err := json.Marshal(requestValue)
+	preLockTokensRequest := PreLockTokensRequest{
+		Transaction: string(transaction),
+	}
+
+	url := config.Gogal_Server + `/accounts/` + account_id + `/tokens/pre_locks`
+
+	requestBody, err := json.Marshal(preLockTokensRequest)
 	if err != nil {
 		return nil, err
 	}
@@ -97,7 +99,7 @@ func PostWithdrawIncentives(account_id, node_id string, created int, amount deci
 
 	//log.Println("response:", string(response))
 
-	var responseObj AccountIdWithdrawalResponse
+	var responseObj PreLockTokenResponse
 	err = json.Unmarshal(response, &responseObj)
 	if err != nil {
 		return nil, err
