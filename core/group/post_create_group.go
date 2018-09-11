@@ -133,10 +133,6 @@ func postGroup_check(preObj *dtcpv1.GroupPost) error {
 		return errors.New("parameter account_id error")
 	}
 
-	if preObj.Avatar == "" {
-		return errors.New("parameter avatar error")
-	}
-
 	if preObj.Abstract == "" {
 		return errors.New("parameter abstract error")
 	}

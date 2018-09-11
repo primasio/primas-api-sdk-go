@@ -32,17 +32,13 @@ const (
 )
 
 type TokenPreLock struct {
-	ID          int             `json:"id"`
-	CreatedAt   int             `json:"created_at"`
-	UserAddress string          `json:"user_address"`
-	NodeAddress string          `json:"node_address"`
-	Amount      decimal.Decimal `json:"amount"`
-	NodeFee     decimal.Decimal `json:"node_fee"`
-	LockType    int             `json:"lock_type"`
-	OrderID     string          `json:"order_id"`
-	TxStatus    int             `json:"tx_status"`
-	TxHash      string          `json:"tx_hash"`
-	AccountId   string          `json:"account_id"`
+	Id                string          `json:"id"`                 // Lock id.
+	Created           int             `json:"created"`            // Lock creation time. Unix timestamp.
+	Atype             string          `json:"type"`               // Pre-lock type. "lock" or "unlock"
+	Amount            decimal.Decimal `json:"amount"`             // Pre-lock amount.
+	Signature         string          `json:"signature"`          // Metadata signature.
+	TransactionHash   string          `json:"transaction_hash"`   // Transaction hash.
+	TransactionStatus string          `json:"transaction_status"` // Transaction status. "pending", "done" or "failed"
 }
 
 type TokenPreLockListResponse struct {
