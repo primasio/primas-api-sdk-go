@@ -37,6 +37,8 @@ type AddressMetadata struct {
 	Extra         *AddressMetadataExtra   `json:"extra,omitempty"`    // Extra metadata.
 	Signature     string                  `json:"signature"`          // Metadata signature.
 	Dna           string                  `json:"dna"`                // DNA of the account.
+	Hp            int                     `json:"hp"`                 // available hp value
+	TotalHp       int                     `json:"total_hp"`           // total hp value
 	Credits       int                     `json:"credits"`            // Current credits.
 	TransactionId string                  `json:"transaction_id"`     // Latest transaction id.
 }
