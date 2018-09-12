@@ -17,20 +17,18 @@
 package token
 
 import (
-	"strings"
 	"testing"
 
-	"github.com/pborman/uuid"
 	"github.com/primasio/primas-api-sdk-go/core"
 	"github.com/shopspring/decimal"
 )
 
 func TestPostPreLockTokens(t *testing.T) {
+	address := "0xd75407ad8cabeeebfed78c4f3794208b3339fbf4"
 	account_id := "32fc4139f7d0347ca9ea70d30caad45a5d90fc23aaefacedf6bff2746e2073f3"
 	amount := decimal.New(120, 18)
-	nonce := strings.Replace(uuid.New(), "-", "", -1)
 
-	resultPreLockTokenResponse, err := PostPreLockTokens(account_id, amount, nonce)
+	resultPreLockTokenResponse, err := PostPreLockTokens(address, account_id, amount)
 	if err != nil {
 		t.Errorf("PostPreLockTokens error:%v", err.Error())
 		return

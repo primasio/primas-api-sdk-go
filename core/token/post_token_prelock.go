@@ -17,13 +17,13 @@
 package token
 
 import (
-	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"math/big"
+	"strings"
 
+	"github.com/pborman/uuid"
 	"github.com/primasio/go-ethereum/common"
-	"github.com/primasio/go-ethereum/crypto"
 	"github.com/primasio/primas-api-sdk-go/config"
 	"github.com/primasio/primas-api-sdk-go/core"
 	"github.com/primasio/primas-api-sdk-go/core/tool"
@@ -49,7 +49,7 @@ type PreLockTokenResponse struct {
 	Data *PreLockTokenId `json:"data"`
 }
 
-func PostPreLockTokens(user_address string, account_id string, amount decimal.Decimal, nonce string) (*PreLockTokenResponse, error) {
+func PostPreLockTokens(user_address string, account_id string, amount decimal.Decimal) (*PreLockTokenResponse, error) {
 	if account_id == "" {
 		return nil, errors.New("account_id is empty")
 	}
@@ -58,9 +58,7 @@ func PostPreLockTokens(user_address string, account_id string, amount decimal.De
 		return nil, errors.New("amount value less than zero")
 	}
 
-	if nonce == "" {
-		return nil, errors.New("noce is empty")
-	}
+	nonce := strings.Replace(uuid.New(), "-", "", -1)
 
 	signPreLock := SignPreLock{
 		Amount:    amount,
@@ -78,10 +76,14 @@ func PostPreLockTokens(user_address string, account_id string, amount decimal.De
 	msg2 := []byte(nonce)
 	msg3 := append(msg1[:], result...)
 	msg4 := append(msg3, msg2...)
-	msgBytes := crypto.Keccak256(msg4)
-	sigBytes, _ := tool.GetClientKeystore().SignHash(*tool.GetClientAccount(), msgBytes)
-	signMsg := hex.EncodeToString(sigBytes)
-	signPreLock.Signature = signMsg
+
+	// mock Sign
+	privateKey := tool.GetClientPrivateKey()
+	signValue, err := tool.Sign(msg4, privateKey)
+	if err != nil {
+		return nil, err
+	}
+	signPreLock.Signature = signValue
 
 	transaction, err := json.Marshal(signPreLock)
 	if err != nil {
