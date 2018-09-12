@@ -20,6 +20,7 @@ import (
 	"testing"
 
 	"github.com/primasio/primas-api-sdk-go/core"
+	"github.com/primasio/primas-api-sdk-go/core/tool"
 	"github.com/shopspring/decimal"
 )
 
@@ -27,8 +28,9 @@ func TestPostPreLockTokens(t *testing.T) {
 	address := "0xd75407ad8cabeeebfed78c4f3794208b3339fbf4"
 	account_id := "32fc4139f7d0347ca9ea70d30caad45a5d90fc23aaefacedf6bff2746e2073f3"
 	amount := decimal.New(120, 18)
+	nonce := tool.GetNonce()
 
-	resultPreLockTokenResponse, err := PostPreLockTokens(address, account_id, amount)
+	resultPreLockTokenResponse, err := PostPreLockTokens(address, account_id, amount, nonce)
 	if err != nil {
 		t.Errorf("PostPreLockTokens error:%v", err.Error())
 		return

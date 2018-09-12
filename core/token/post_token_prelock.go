@@ -20,9 +20,7 @@ import (
 	"encoding/json"
 	"errors"
 	"math/big"
-	"strings"
 
-	"github.com/pborman/uuid"
 	"github.com/primasio/go-ethereum/common"
 	"github.com/primasio/primas-api-sdk-go/config"
 	"github.com/primasio/primas-api-sdk-go/core"
@@ -49,7 +47,7 @@ type PreLockTokenResponse struct {
 	Data *PreLockTokenId `json:"data"`
 }
 
-func PostPreLockTokens(user_address string, account_id string, amount decimal.Decimal) (*PreLockTokenResponse, error) {
+func PostPreLockTokens(user_address string, account_id string, amount decimal.Decimal, nonce string) (*PreLockTokenResponse, error) {
 	if account_id == "" {
 		return nil, errors.New("account_id is empty")
 	}
@@ -57,8 +55,6 @@ func PostPreLockTokens(user_address string, account_id string, amount decimal.De
 	if amount.Cmp(decimal.Zero) <= 0 {
 		return nil, errors.New("amount value less than zero")
 	}
-
-	nonce := strings.Replace(uuid.New(), "-", "", -1)
 
 	signPreLock := SignPreLock{
 		Amount:    amount,
